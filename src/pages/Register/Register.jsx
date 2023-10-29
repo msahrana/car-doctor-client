@@ -5,7 +5,8 @@ import { AuthContext } from '../../provider/AuthProvider';
 
 const Register = () => {
 
-    const {createUser, googleLogin} = useContext(AuthContext)
+        
+        const {createUser, googleLogin, updateUser,setUser } = useContext(AuthContext)
 
     const handleGoogleLogin = () =>{
         googleLogin()
@@ -25,6 +26,15 @@ const Register = () => {
         createUser(email, password)
         .then(result => {
             console.log(result.user)
+            updateUser(name, 'https://i.ibb.co/Zx9tKxS/photo-url.png')
+            .then(()=>{
+                setUser((prev)=>{ 
+                    prev.displayName = name;
+                     prev.photoURL = 'https://i.ibb.co/Zx9tKxS/photo-url.png';
+                     return {...prev};
+                })
+            })
+            
         })
         .catch(error=> console.error(error))
     }
@@ -45,6 +55,17 @@ const Register = () => {
                         <input
                             type="text" name='name'
                             placeholder="Your Name"
+                            className="input input-bordered"
+                            required
+                        />
+                    </div>
+                    <div className="form-control">
+                        <label className="label">
+                            <span className="label-text">Photo URL</span>
+                        </label>
+                        <input
+                            type="photoURL" name='photoURL'
+                            placeholder="Photo URL"
                             className="input input-bordered"
                             required
                         />
