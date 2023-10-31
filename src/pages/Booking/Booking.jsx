@@ -1,22 +1,25 @@
 import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
 import BookingCard from './BookingCard';
+import axios from 'axios';
 
-// import { useLoaderData } from "react-router-dom";
 
   const Booking = () => {
   const {user} = useContext(AuthContext)
 
   const [booking, setBooking] = useState([])
+    const [reface, setReface] = useState(true)
 
   useEffect(()=>{
-    fetch(`http://localhost:5000/booking?email=${user?.email}`)
-    .then(res => res.json())
-    .then(data => setBooking(data))
-},[])
+    axios.get(`http://localhost:5000/booking?email=${user?.email}`, {withCredentials: true})
+    .then(res=> {
+      setBooking(res.data)
+    })
+    // fetch(`http://localhost:5000/booking?email=${user?.email}`)
+    // .then(res => res.json())
+    // .then(data => setBooking(data))
+},[user, reface])
 
-    // const data = useLoaderData()
-    // console.log(data)
 
   return (
     <div>
@@ -37,7 +40,7 @@ import BookingCard from './BookingCard';
           </thead>
           <tbody>
             {
-              booking.map(booking=> <BookingCard key={booking._id} booking={booking}></BookingCard>)
+              booking.map(booking=> <BookingCard key={booking._id} booking={booking} reface={reface} setReface={setReface}></BookingCard>)
             }
           </tbody>
         </table>

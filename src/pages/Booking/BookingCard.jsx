@@ -1,7 +1,7 @@
 import Swal from "sweetalert2";
 
-const BookingCard = ({ booking, bookings, setBookings }) => {
-  const { _id, service, date, img, price } = booking;
+const BookingCard = ({ booking, reface, setReface }) => {
+  const { _id, service, date, img, price, status } = booking;
 
   const handleDelete = _id => {
     Swal.fire({
@@ -23,18 +23,65 @@ const BookingCard = ({ booking, bookings, setBookings }) => {
             console.log(data)
             if (data.deletedCount>0) {
                 Swal.fire("Deleted!", "Your booking has been deleted.", "success");
-                const remaining = bookings.filter(book => book._id !== _id)
-                setBookings(remaining)
+                setReface(!reface)
             }
         })
       }
     });
   };
 
+  // const update2 = _id =>{
+  //   fetch(`http://localhost:5000/booking/${_id}`,{
+  //     method: 'PATCH',
+  //     headers: {
+  //       'content-type':'application/json'
+  //     },
+  //     body: JSON.stringify({status: 'confirm'})
+  //   })
+  //   .then(res => res.json())
+  //   .then(data => {
+  //     console.log(data)
+  //     if (data.modifiedCount > 0){
+  //       setReface(!reface)
+  //     }
+  //   })  
+  // }
+
+  const handleUpdate = _id =>{
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, confirm it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        fetch(`http://localhost:5000/booking/${_id}`,{
+      method: 'PATCH',
+      headers: {
+        'content-type':'application/json'
+      },
+      body: JSON.stringify({status: 'confirm'})
+    })
+    .then(res => res.json())
+    .then(data => {
+      console.log(data)
+      if (data.modifiedCount > 0){
+        Swal.fire('Deleted!','Your booking has been updated.','success')
+        setReface(!reface)
+      }
+    })  
+      }
+    })
+  }
+  
+
   return (
     <tr>
       <th>
-        <button onClick={() => handleDelete(_id)} className="btn btn-circle bg-[#FF3811]">
+        <button onClick={() => handleDelete(_id)} className="btn btn-circle ">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             className="h-6 w-6 "
@@ -62,7 +109,9 @@ const BookingCard = ({ booking, bookings, setBookings }) => {
       <td>{date}</td>
       <td>${price}</td>
       <th>
-        <button className="btn bg-[#FF3811] rounded-lg">Please Confirm</button>
+        { status === 'confirm' ? <span className="font-bold text-green-400">Confirmed</span> :
+          <button onClick={()=> handleUpdate (_id)} className="btn btn-ghost rounded-lg">Please Confirm</button>
+        }
       </th>
     </tr>
   );

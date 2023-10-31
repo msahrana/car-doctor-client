@@ -8,6 +8,8 @@ import { AuthContext } from "../../provider/AuthProvider";
 const Navbar = () => {
 
   const {user, logOut} = useContext(AuthContext)
+  console.log(user)
+
 
   const handleLogOut = () =>{
     logOut()
@@ -28,7 +30,11 @@ const Navbar = () => {
     </>
     : <li><Link to='/login'>Login</Link></li>
     }
+    <li>{user?.displayName}</li>
+    <li><img className="rounded-full" src={user?.photoURL} alt="" /></li>
   </>
+
+
   return (
     <div className="navbar bg-base-100 h-28 mb-4">
   <div className="navbar-start">

@@ -41,8 +41,8 @@ const AuthProvider = ({children}) => {
             console.log('current user', currentUser)
             setLoading(false)
         })
-        return ()=> {
-            return unSubsCribe()
+        return () => {
+            return unSubsCribe();
         }
     },[])
 

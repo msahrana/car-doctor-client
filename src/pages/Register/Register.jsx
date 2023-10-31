@@ -2,11 +2,12 @@ import { Link } from 'react-router-dom';
 import login from '../../../public/assets/images/login/login.svg';
 import { useContext } from 'react';
 import { AuthContext } from '../../provider/AuthProvider';
+import { updateProfile } from 'firebase/auth';
 
 const Register = () => {
 
         
-        const {createUser, googleLogin, updateUser,setUser } = useContext(AuthContext)
+        const {createUser, googleLogin } = useContext(AuthContext)
 
     const handleGoogleLogin = () =>{
         googleLogin()
@@ -20,23 +21,32 @@ const Register = () => {
         e.preventDefault()
         const form = e.target;
         const name = form.name.value;
+        const photoURL = form.photoURL.value
         const email = form.email.value;
         const password = form.password.value;
-        console.log(name, email, password)
+        console.log(name, email, password,photoURL)
         createUser(email, password)
         .then(result => {
             console.log(result.user)
-            updateUser(name, 'https://i.ibb.co/Zx9tKxS/photo-url.png')
-            .then(()=>{
-                setUser((prev)=>{ 
-                    prev.displayName = name;
-                     prev.photoURL = 'https://i.ibb.co/Zx9tKxS/photo-url.png';
-                     return {...prev};
-                })
-            })
+
+            updateProfile(result.user, {
+                displayName: name, photoURL: photoURL})
+                .then(() => {
+                    console.log('Profile updated')})
+                .catch((error) => {
+                    console.log(error)});
+
+            // updateUser(name, 'https://i.ibb.co/V9m38TG/mr-sayed-rana.jpg')
+            // .then(()=>{
+            //     setUser((prev)=>{ 
+            //         prev.displayName = name;
+            //          prev.photoURL = 'https://i.ibb.co/V9m38TG/mr-sayed-rana.jpg';
+            //          return {...prev};
+            //     })
+            // })
             
         })
-        .catch(error=> console.error(error))
+        // .catch(error=> console.error(error))
     }
 
     return (
@@ -61,7 +71,7 @@ const Register = () => {
                     </div>
                     <div className="form-control">
                         <label className="label">
-                            <span className="label-text">Photo URL</span>
+                            <span className="label-text ">Photo URL</span>
                         </label>
                         <input
                             type="photoURL" name='photoURL'
