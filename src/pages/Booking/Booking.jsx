@@ -7,17 +7,17 @@ import axios from 'axios';
   const Booking = () => {
   const {user} = useContext(AuthContext)
 
+ 
+
   const [booking, setBooking] = useState([])
     const [reface, setReface] = useState(true)
+console.log(user?.email)
 
   useEffect(()=>{
     axios.get(`http://localhost:5000/booking?email=${user?.email}`, {withCredentials: true})
     .then(res=> {
       setBooking(res.data)
     })
-    // fetch(`http://localhost:5000/booking?email=${user?.email}`)
-    // .then(res => res.json())
-    // .then(data => setBooking(data))
 },[user, reface])
 
 
