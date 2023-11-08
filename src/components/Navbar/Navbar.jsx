@@ -13,8 +13,8 @@ const Navbar = () => {
 
   const handleLogOut = () =>{
     logOut()
-    .then(()=>{})
-    .catch(error => console.log(error))
+    .then()
+    .catch()
   }
 
   const navItems = <>
@@ -23,15 +23,8 @@ const Navbar = () => {
     <li><Link to='/services'>Services</Link></li>
     <li><Link to='/blog'>Blog</Link></li>
     <li><Link to='/contact'>Contact</Link></li>
-    {user?.email ? <>
-      {/* <li><Link to={`/booking/${user?.email}`}>My Booking</Link></li> */}
-      <li><Link to='/booking'>My Booking</Link></li>
-      <li><button onClick={handleLogOut}>LogOut</button></li>
-    </>
-    : <li><Link to='/login'>Login</Link></li>
-    }
-    <li>{user?.displayName}</li>
-    <li><img className="rounded-full" src={user?.photoURL} alt="" /></li>
+    <li><Link to='/booking'>My Booking</Link></li>
+    <li><Link to='/login'>Login</Link></li>
   </>
 
 
@@ -54,8 +47,21 @@ const Navbar = () => {
     </ul>
   </div>
   <div className="navbar-end">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+                  <div className="w-10 rounded-full">  <img src={user?.photoURL}/> </div>  
+            </label>
+            <div className="bg-red-500 mx-2 p-2 rounded">{user?.displayName}</div>
+                  {
+                      user ? 
+                      <button onClick={handleLogOut} className="btn btn-secondary w-28 h-10">Sign Out</button>
+                      : <Link to='/login'>
+                          <button className="btn btn-secondary w-[140px] h-[44px]">Login</button>
+                        </Link>
+                  }
+          </div>
+  {/* <div className="navbar-end">
   <button className="btn btn-outline btn-error">Appointment</button>
-  </div>
+  </div> */}
 </div>
   );
 };

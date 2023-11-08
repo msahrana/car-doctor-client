@@ -9,7 +9,7 @@ const ServicesCard = ({service}) => {
       <figure className="px-10 pt-10">
         <img
           src={img}
-          alt="Shoes"
+          alt="img"
           className="rounded-xl mx-5 h-[210px]"
         />
       </figure>
@@ -18,7 +18,7 @@ const ServicesCard = ({service}) => {
         <p className="text-[#FF3811] text-xl font-semibold">Price: ${price}</p>
         <div className="card-actions">
           <Link to={`/checkout/${_id}`}>
-            <button className="btn btn-primary">Book Now</button>
+            <button className="btn bg-[#FF3811]">Book Now</button>
           </Link>
         </div>
       </div>

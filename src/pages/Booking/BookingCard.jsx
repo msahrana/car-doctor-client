@@ -15,7 +15,7 @@ const BookingCard = ({ booking, reface, setReface }) => {
     }).then((result) => {
       if (result.isConfirmed) {
 
-        fetch(`http://localhost:5000/booking/${_id}`,{
+        fetch(`https://car-doctor-server-wine-theta.vercel.app/booking/${_id}`,{
             method: 'DELETE'
         })
         .then(res=> res.json())
@@ -58,7 +58,7 @@ const BookingCard = ({ booking, reface, setReface }) => {
       confirmButtonText: 'Yes, confirm it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:5000/booking/${_id}`,{
+        fetch(`https://car-doctor-server-wine-theta.vercel.app/booking/${_id}`,{
       method: 'PATCH',
       headers: {
         'content-type':'application/json'
@@ -69,7 +69,7 @@ const BookingCard = ({ booking, reface, setReface }) => {
     .then(data => {
       console.log(data)
       if (data.modifiedCount > 0){
-        Swal.fire('Deleted!','Your booking has been updated.','success')
+        Swal.fire('Updated!','Your booking has been updated.','success')
         setReface(!reface)
       }
     })  

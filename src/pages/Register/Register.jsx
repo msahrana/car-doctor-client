@@ -7,7 +7,7 @@ import { updateProfile } from 'firebase/auth';
 const Register = () => {
 
         
-        const {createUser, googleLogin } = useContext(AuthContext)
+    const {createUser, googleLogin } = useContext(AuthContext)
 
     const handleGoogleLogin = () =>{
         googleLogin()
@@ -24,7 +24,7 @@ const Register = () => {
         const photoURL = form.photoURL.value
         const email = form.email.value;
         const password = form.password.value;
-        console.log(name, email, password,photoURL)
+        console.log(name, email, password, photoURL)
         createUser(email, password)
         .then(result => {
             console.log(result.user)
